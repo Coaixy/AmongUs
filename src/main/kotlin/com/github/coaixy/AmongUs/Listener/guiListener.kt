@@ -1,25 +1,25 @@
 package com.github.coaixy.AmongUs.Listener
 
+import com.github.coaixy.AmongUs.Commands.guiJoin
+import com.github.coaixy.AmongUs.Commands.guiLeave
+import com.github.coaixy.AmongUs.Commands.guiQueue
 import com.github.coaixy.AmongUs.Core.colored
-import org.bukkit.Material
+import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.SubscribeEvent
 
 
 object guiListener {
-    fun getItemStack():ItemStack{
-        val itemJoin = ItemStack(Material.IRON_SWORD)
-        val itemMeta = itemJoin.itemMeta
-        itemMeta?.setDisplayName(colored("&e参与匹配"))
-        itemJoin.itemMeta = itemMeta
-        return itemJoin
-    }
     @SubscribeEvent
     fun e(e:InventoryClickEvent){
-        e.whoClicked.sendMessage("1")
-        if(e.inventory.contains(getItemStack(),21)){
-            e.whoClicked.sendMessage("1")
+        val inv = e.inventory
+        val title = inv.getItem(21)?.itemMeta?.displayName
+        if (title.equals(colored("&e参与匹配"))){
+            //判断是否为AmongUs的GUI
+            val p = e.whoClicked
+            if (e.rawSlot==21) guiJoin(p as Player)
+            if (e.rawSlot==23) guiLeave(p as Player)
+            if (e.rawSlot==31) guiQueue(p as Player)
         }
     }
 }

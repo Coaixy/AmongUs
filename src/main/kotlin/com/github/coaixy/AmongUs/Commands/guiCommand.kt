@@ -4,6 +4,7 @@ import com.github.coaixy.AmongUs.Core.colored
 import com.github.coaixy.AmongUs.Core.configObject
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
@@ -40,13 +41,13 @@ get() {
     return result
 }
 
-fun guiJoin(){
+fun guiJoin(p:Player){
+    p.sendMessage("This is a Test")
+}
+fun guiLeave(p:Player){
 
 }
-fun guiLeave(){
-
-}
-fun guiQueue(){
+fun guiQueue(p:Player){
 
 }
 
