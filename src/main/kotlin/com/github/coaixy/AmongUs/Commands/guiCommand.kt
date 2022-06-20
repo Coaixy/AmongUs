@@ -42,7 +42,7 @@ get() {
 }
 
 fun guiJoin(p:Player){
-    p.sendMessage("This is a Test")
+
 }
 fun guiLeave(p:Player){
 
