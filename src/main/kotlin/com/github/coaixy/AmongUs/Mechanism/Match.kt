@@ -24,11 +24,41 @@ object Match {
             return result[0]
         }
     }
-    private fun newRoom(lastNum:Int):Int{
-        return lastNum+1
+    fun add(playerName:String,roomId:Int):Boolean{
+        var text = getText(roomId)
+        return if (text[0] == '0'){
+            text+=playerName
+            File(getDataFolder().path + "\\match\\$roomId.txt").writeText(text)
+            true
+        }else{
+            false
+        }
+    }
+    fun delete(playerName:String,roomId:Int):Boolean{
+        val text = getText(roomId)
+        var flag = 0
+        for (i in text.split("\n")){
+            if (i == playerName)flag=1
+        }
+        return if (flag!=1 || text[0]=='1'){
+            false
+        }else{
+            var result = ""
+            for (i in text.split("\n")){
+                if (i!=playerName){
+                    result+=i+"\n"
+                }
+            }
+            File(getDataFolder().path + "\\match\\$roomId.txt").writeText(result)
+            true
+        }
     }
 
-    fun setMeted(roomId:Int,state:Int){
+    fun getMethod(roomId: Int):Int{
+        val text = File(getDataFolder().path+"\\match\\$roomId.txt").readText()
+        return text[0].toString().toInt()
+    }
+    fun setMethod(roomId:Int,state:Int){
         val fileName = getDataFolder().path + "\\match\\$roomId.txt"
         var text = ""
         for (i in File(fileName).readLines()){
@@ -50,4 +80,15 @@ object Match {
         return result
     }
 
+    private fun getText(roomId:Int):String{
+        val fileName = getDataFolder().path + "\\match\\$roomId.txt"
+        var result = ""
+        for (i in File(fileName).readLines()){
+            result+=i+"\n"
+        }
+        return result
+    }
+    private fun newRoom(lastNum:Int):Int{
+        return lastNum+1
+    }
 }
