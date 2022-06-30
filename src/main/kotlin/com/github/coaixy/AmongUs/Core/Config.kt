@@ -9,3 +9,20 @@ val configObject: YamlConfiguration
         val path: String = getDataFolder().path + "\\config.yml"
         return YamlConfiguration.loadConfiguration(newFile(path, create = false, folder = false))
     }
+val langConfigObject: YamlConfiguration
+    get() {
+        val path: String = getDataFolder().path + "\\lang.yml"
+        return YamlConfiguration.loadConfiguration(newFile(path, create = false, folder = false))
+    }
+val Msg_Join_Fail: String?
+get() {
+    return langConfigObject.getString("Join-Failed")
+}
+val Msg_Join_Success: String?
+    get() {
+        return langConfigObject.getString("Join-Success")
+    }
+val Msg_Match_State: List<String>
+    get() {
+        return langConfigObject.getStringList("Match-State")
+    }

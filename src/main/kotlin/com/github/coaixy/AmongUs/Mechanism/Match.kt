@@ -24,6 +24,38 @@ object Match {
             return result[0]
         }
     }
+    //0 空闲 1 已加入队列 2 已进入游戏
+    fun getPlayerState(playerName: String):Int{
+        val fileName = getDataFolder().path + "\\match\\list.txt"
+        val list =  File(fileName).readLines()
+        var flag = 0
+        for (i in list){
+            for (j in getPlayerList(i.toInt())){
+                if (j == playerName){
+                    if (getMethod(i.toInt()) == 1)flag = 2
+                    if (getMethod(i.toInt()) == 0)flag = 1
+                }
+            }
+        }
+        return flag
+    }
+    fun getRoomNumber(roomId: Int):Int{
+        return File(getDataFolder().path + "\\match\\$roomId.txt").readLines().size-1
+    }
+    fun getPlayerRoom(playerName: String):Int{
+        var result = 0
+        val fileName = getDataFolder().path + "\\match\\list.txt"
+        val list =  File(fileName).readLines()
+        for (i in list){
+            for (j in getPlayerList(i.toInt())){
+                if (j == playerName){
+                    result = i.toInt()
+                    break
+                }
+            }
+        }
+        return result
+    }
     fun add(playerName:String,roomId:Int):Boolean{
         var text = getText(roomId)
         return if (text[0] == '0'){

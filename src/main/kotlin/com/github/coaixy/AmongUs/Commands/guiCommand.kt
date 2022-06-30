@@ -1,7 +1,7 @@
 package com.github.coaixy.AmongUs.Commands
 
-import com.github.coaixy.AmongUs.Core.colored
-import com.github.coaixy.AmongUs.Core.configObject
+import com.github.coaixy.AmongUs.Core.*
+import com.github.coaixy.AmongUs.Mechanism.Match
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -41,8 +41,34 @@ get() {
     return result
 }
 
+fun guiSendState(p: Player){
+    for (i in Msg_Match_State){
+        val roomId = Match.getPlayerRoom(p.name)
+        if (i.contains("{{playerList}}")){
+            i.replace("{{playerList}}","")
+            p.sendMessage(colored(i))
+            for (j in Match.getPlayerList(roomId)){
+                p.sendMessage(j)
+            }
+        }else{
+            i.replace("{{roomId}}",roomId.toString())
+            i.replace("{{roomNumber}}",Match.getRoomNumber(roomId).toString())
+            p.sendMessage(colored(i))
+        }
+    }
+}
 fun guiJoin(p:Player){
-
+    if (Match.getPlayerState(p.name) >= 1){
+        for (i in Msg_Join_Fail!!.split("\n")){
+            p.sendMessage(colored(i))
+        }
+    }else{
+        val roomId = Match.getAvailableList()
+        for (i in Msg_Join_Success!!.replace("{{roomId}}",roomId.toString()).split("\n")){
+            p.sendMessage(colored(i))
+        }
+    }
+    guiSendState(p)
 }
 fun guiLeave(p:Player){
 
