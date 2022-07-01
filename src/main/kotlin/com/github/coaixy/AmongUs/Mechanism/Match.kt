@@ -72,7 +72,7 @@ object Match {
         for (i in text.split("\n")){
             if (i == playerName)flag=1
         }
-        return if (flag!=1 || text[0]=='1'){
+        return if (flag !=1 || text[0]=='1'){
             false
         }else{
             var result = ""

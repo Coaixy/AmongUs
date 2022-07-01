@@ -8,3 +8,5 @@ Match-State:
   - "房间号: {{roomId}}"
   - "人数: {{roomNumber}}"
   - "玩家列表: {{playerList}}"
+Leave-Failed: "离开失败，请检查当前状态 \n 输入aus state获取"
+Leave-Success: "离开成功  \n 输入aus state 查看当前状态"

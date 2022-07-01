@@ -67,13 +67,24 @@ fun guiJoin(p:Player){
         for (i in Msg_Join_Success!!.replace("{{roomId}}",roomId.toString()).split("\n")){
             p.sendMessage(colored(i))
         }
+        Match.add(p.name,roomId)
     }
     guiSendState(p)
 }
 fun guiLeave(p:Player){
-
+    if (Match.getPlayerState(p.name) < 1){
+        for (i in Msg_Leave_Fail!!.split("\n")){
+            p.sendMessage(colored(i))
+        }
+    }else{
+        for (i in Msg_Leave_Success!!.split("\n")){
+            p.sendMessage(colored(i))
+        }
+        Match.delete(p.name,Match.getPlayerRoom(p.name))
+        guiSendState(p)
+    }
 }
 fun guiQueue(p:Player){
-
+    guiSendState(p)
 }
 

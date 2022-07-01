@@ -26,3 +26,11 @@ val Msg_Match_State: List<String>
     get() {
         return langConfigObject.getStringList("Match-State")
     }
+val Msg_Leave_Success: String?
+    get() {
+        return langConfigObject.getString("Leave-Success")
+    }
+val Msg_Leave_Fail: String?
+    get() {
+        return langConfigObject.getString("Leave-Failed")
+    }
