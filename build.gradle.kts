@@ -18,7 +18,6 @@ repositories {
 }
 
 dependencies {
-    implementation("com.alkaidmc.alkaid:alkaid-bukkit:1.0.0-SNAPSHOT")
     compileOnly("ink.ptms:nms-all:1.0.0")
     compileOnly("ink.ptms.core:v11800:11800-minimize:api")
     compileOnly("ink.ptms.core:v11800:11800-minimize:mapped")

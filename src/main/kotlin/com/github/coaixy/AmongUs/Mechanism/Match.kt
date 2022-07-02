@@ -86,7 +86,7 @@ object Match {
         }
     }
 
-    fun getMethod(roomId: Int):Int{
+    private fun getMethod(roomId: Int):Int{
         val text = File(getDataFolder().path+"\\match\\$roomId.txt").readText()
         return text[0].toString().toInt()
     }
@@ -121,6 +121,12 @@ object Match {
         return result
     }
     private fun newRoom(lastNum:Int):Int{
+        val num = lastNum+1
+        if (File(getDataFolder().path + "\\match\\$num.txt").exists()){
+            File(getDataFolder().path + "\\match\\$num.txt").createNewFile()
+        }else{
+            File(getDataFolder().path + "\\match\\$num.txt").writeText("")
+        }
         return lastNum+1
     }
 }
