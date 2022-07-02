@@ -7,9 +7,10 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.ItemMeta
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.getDataFolder
+import java.io.File
 
 val guiCommand = subCommand {
     execute<ProxyCommandSender> { sender, context, argument ->
@@ -43,19 +44,15 @@ get() {
 
 fun guiSendState(p: Player){
     for (i in Msg_Match_State){
-        val roomId = Match.getPlayerRoom(p.name)
-        if (i.contains("{{playerList}}")){
-            i.replace("{{playerList}}","")
-            p.sendMessage(colored(i))
-            for (j in Match.getPlayerList(roomId)){
-                p.sendMessage(j)
+        if (i == "{{playerList}}"){
+            for (j in Match.getPlayerList(Match.getPlayerRoom(p.name))){
+                p.sendMessage(colored(guiHook(j,p)))
             }
         }else{
-            i.replace("{{roomId}}",roomId.toString())
-            i.replace("{{roomNumber}}",Match.getRoomNumber(roomId).toString())
-            p.sendMessage(colored(i))
+            p.sendMessage(colored(guiHook(i,p)))
         }
     }
+
 }
 fun guiJoin(p:Player){
     if (Match.getPlayerState(p.name) >= 1){
@@ -64,6 +61,12 @@ fun guiJoin(p:Player){
         }
     }else{
         val roomId = Match.getAvailableList()
+        val path = getDataFolder().path+"\\match\\$roomId.txt"
+        if (!File(path).exists()){
+            val f = File(path)
+            f.createNewFile()
+            f.writeText("1")
+        }
         for (i in Msg_Join_Success!!.replace("{{roomId}}",roomId.toString()).split("\n")){
             p.sendMessage(colored(i))
         }

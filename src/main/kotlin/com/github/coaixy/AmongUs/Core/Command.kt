@@ -2,6 +2,7 @@ package com.github.coaixy.AmongUs.Core
 
 import com.github.coaixy.AmongUs.Commands.guiCommand
 import com.github.coaixy.AmongUs.Commands.helpCommand
+import com.github.coaixy.AmongUs.Commands.stateCommand
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.PermissionDefault
@@ -25,4 +26,10 @@ object Command {
         permission = "AmongUs.user.gui"
     )
     val gui = guiCommand
+    @CommandBody(
+        optional = true,
+        permissionDefault = PermissionDefault.TRUE,
+        permission = "AmongUs.user.gui"
+    )
+    val state = stateCommand
 }

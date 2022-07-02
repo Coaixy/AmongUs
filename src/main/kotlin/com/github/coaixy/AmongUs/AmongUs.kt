@@ -11,9 +11,8 @@ object AmongUs : Plugin() {
     override fun onEnable() {
         info("成功加载AmongUs")
         releaseResourceFile("config.yml",false)
-        if (!File(getDataFolder().path + "\\match\\list.txt").exists()){
-            File(getDataFolder().path + "\\match\\list.txt").createNewFile()
-        }
+        releaseResourceFile("lang.yml",false)
+        releaseResourceFile("match//list.txt",false)
 
     }
 }

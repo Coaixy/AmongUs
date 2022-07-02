@@ -20,6 +20,7 @@ object guiListener {
             if (e.rawSlot==21) guiJoin(p as Player)
             if (e.rawSlot==23) guiLeave(p as Player)
             if (e.rawSlot==31) guiQueue(p as Player)
+            e.isCancelled
         }
     }
 }

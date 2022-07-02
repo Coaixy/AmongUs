@@ -7,6 +7,7 @@ object Match {
 
 
     //获取可以加人的队列
+    // 1 等待中  2 已经开始
     fun getAvailableList():Int {
         val fileName = getDataFolder().path + "\\match\\list.txt"
         val list =  File(fileName).readLines()
@@ -18,10 +19,12 @@ object Match {
             }
         }
         //如果所有队列已满，则创建新队列
-        if (result.size<1){
-            return newRoom(list[list.size-1].toInt())
+        return if (result.size<1 && File(fileName).readLines().isNotEmpty()){
+            newRoom(list[list.size-1].toInt())
+        }else if (result.size < 1 ){
+            1
         }else{
-            return result[0]
+            result[0]
         }
     }
     //0 空闲 1 已加入队列 2 已进入游戏
@@ -32,8 +35,7 @@ object Match {
         for (i in list){
             for (j in getPlayerList(i.toInt())){
                 if (j == playerName){
-                    if (getMethod(i.toInt()) == 1)flag = 2
-                    if (getMethod(i.toInt()) == 0)flag = 1
+                    flag = getMethod(i.toInt())
                 }
             }
         }
@@ -43,7 +45,7 @@ object Match {
         return File(getDataFolder().path + "\\match\\$roomId.txt").readLines().size-1
     }
     fun getPlayerRoom(playerName: String):Int{
-        var result = 0
+        var result = 1
         val fileName = getDataFolder().path + "\\match\\list.txt"
         val list =  File(fileName).readLines()
         for (i in list){
@@ -56,9 +58,33 @@ object Match {
         }
         return result
     }
+
+    fun deleteRoom(roomId: Int){
+        val fileName = getDataFolder().path + "\\match\\list.txt"
+        val list = File(fileName).readLines().toMutableList()
+        list.add(roomId.toString())
+        var result = ""
+        for (i in list){
+            if (i != roomId.toString()){
+                result+=i+"\n"
+            }
+        }
+        File(fileName).writeText(result)
+    }
+
+    fun addRoom(roomId: Int){
+        val fileName = getDataFolder().path + "\\match\\list.txt"
+        val list = File(fileName).readLines().toMutableList()
+        list.add(roomId.toString())
+        var result = ""
+        for (i in list){
+            result+=i+"\n"
+        }
+        File(fileName).writeText(result)
+    }
     fun add(playerName:String,roomId:Int):Boolean{
         var text = getText(roomId)
-        return if (text[0] == '0'){
+        return if (text[0] == '1'){
             text+=playerName
             File(getDataFolder().path + "\\match\\$roomId.txt").writeText(text)
             true
@@ -68,13 +94,8 @@ object Match {
     }
     fun delete(playerName:String,roomId:Int):Boolean{
         val text = getText(roomId)
-        var flag = 0
-        for (i in text.split("\n")){
-            if (i == playerName)flag=1
-        }
-        return if (flag !=1 || text[0]=='1'){
-            false
-        }else{
+        if (getPlayerState(playerName) == 2)return false
+        if (getPlayerState(playerName) == 1){
             var result = ""
             for (i in text.split("\n")){
                 if (i!=playerName){
@@ -82,7 +103,9 @@ object Match {
                 }
             }
             File(getDataFolder().path + "\\match\\$roomId.txt").writeText(result)
-            true
+            return true
+        }else{
+            return false
         }
     }
 
@@ -122,11 +145,12 @@ object Match {
     }
     private fun newRoom(lastNum:Int):Int{
         val num = lastNum+1
-        if (File(getDataFolder().path + "\\match\\$num.txt").exists()){
+        if (!File(getDataFolder().path + "\\match\\$num.txt").exists()){
             File(getDataFolder().path + "\\match\\$num.txt").createNewFile()
         }else{
-            File(getDataFolder().path + "\\match\\$num.txt").writeText("")
+            File(getDataFolder().path + "\\match\\$num.txt").writeText("1")
         }
+        addRoom(lastNum+1)
         return lastNum+1
     }
 }
