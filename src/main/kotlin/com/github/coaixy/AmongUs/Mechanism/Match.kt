@@ -77,15 +77,19 @@ object Match {
         val list = File(fileName).readLines().toMutableList()
         list.add(roomId.toString())
         var result = ""
-        for (i in list){
-            result+=i+"\n"
+        for ((i,j) in list.withIndex()){
+            if (i!=list.size-1){
+                result+=j+"\n"
+            }else{
+                result+=j
+            }
         }
         File(fileName).writeText(result)
     }
     fun add(playerName:String,roomId:Int):Boolean{
         var text = getText(roomId)
         return if (text[0] == '1'){
-            text+=playerName
+            text+="\n$playerName"
             File(getDataFolder().path + "\\match\\$roomId.txt").writeText(text)
             true
         }else{
@@ -97,9 +101,12 @@ object Match {
         if (getPlayerState(playerName) == 2)return false
         if (getPlayerState(playerName) == 1){
             var result = ""
-            for (i in text.split("\n")){
-                if (i!=playerName){
-                    result+=i+"\n"
+            val list = clearSpace(text.split("\n"))
+            for ((index,value) in list.withIndex()){
+                if (value!=playerName && index != list.size-1){
+                    result+=value+"\n"
+                }else{
+                    result+=value
                 }
             }
             File(getDataFolder().path + "\\match\\$roomId.txt").writeText(result)
@@ -138,8 +145,13 @@ object Match {
     private fun getText(roomId:Int):String{
         val fileName = getDataFolder().path + "\\match\\$roomId.txt"
         var result = ""
-        for (i in File(fileName).readLines()){
-            result+=i+"\n"
+        val list = File(fileName).readLines()
+        for ((i,j) in list.withIndex()){
+            if (i != list.size-1){
+                result+=j+"\n"
+            }else{
+                result+= j
+            }
         }
         return result
     }
@@ -152,5 +164,13 @@ object Match {
         }
         addRoom(lastNum+1)
         return lastNum+1
+    }
+
+    private fun clearSpace(list: List<String>):MutableList<String>{
+        val result = mutableListOf<String>()
+        for (i in list){
+            if (i!="")result.add(i)
+        }
+        return result
     }
 }
