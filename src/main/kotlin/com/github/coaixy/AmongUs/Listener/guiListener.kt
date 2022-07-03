@@ -16,11 +16,11 @@ object guiListener {
         val title = inv.getItem(21)?.itemMeta?.displayName
         if (title.equals(colored("&e参与匹配"))){
             //判断是否为AmongUs的GUI
-            val p = e.whoClicked
-            if (e.rawSlot==21) guiJoin(p as Player)
-            if (e.rawSlot==23) guiLeave(p as Player)
-            if (e.rawSlot==31) guiQueue(p as Player)
-            e.isCancelled
+            val p = e.whoClicked as Player
+            if (e.rawSlot==21) guiJoin(p)
+            if (e.rawSlot==23) guiLeave(p)
+            if (e.rawSlot==31) guiQueue(p)
+            e.isCancelled = true
         }
     }
 }

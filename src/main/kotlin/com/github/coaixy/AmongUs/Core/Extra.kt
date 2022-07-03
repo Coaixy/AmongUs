@@ -10,10 +10,3 @@ fun getHelp(): List<String> {
 fun colored(text:String):String{
         return text.replace("&","§")
 }
-
-fun guiHook(text:String, player:Player):String{
-    var result = ""
-    result = result.replace("{{roomId}}", Match.getPlayerRoom(player.name).toString())
-    result = result.replace("{{roomNumber}}", Match.getRoomNumber(Match.getPlayerRoom(player.name)).toString())
-    return result
-}

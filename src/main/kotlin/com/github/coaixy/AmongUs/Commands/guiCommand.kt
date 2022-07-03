@@ -44,17 +44,19 @@ get() {
 
 fun guiSendState(p: Player){
     for (i in Msg_Match_State){
-        if (i == "{{playerList}}"){
-            for (j in Match.getPlayerList(Match.getPlayerRoom(p.name))){
-                p.sendMessage(colored(guiHook(j,p)))
-            }
+        if(!i.contains("{{playerList}}")){
+            var text = i.replace("{{roomNumber}}",Match.getRoomNumber(Match.getPlayerRoom(p.name)).toString())
+            text = text.replace("{{roomId}}",Match.getPlayerRoom(p.name).toString())
+            p.sendMessage(colored(text))
         }else{
-            p.sendMessage(colored(guiHook(i,p)))
+            val color = i.replace("{{playerList}}","")
+            for (j in Match.getPlayerList(Match.getPlayerRoom(p.name))){
+                p.sendMessage(colored(color+j))
+            }
         }
     }
-
 }
-fun guiJoin(p:Player){
+fun guiJoin(p: Player){
     if (Match.getPlayerState(p.name) >= 1){
         for (i in Msg_Join_Fail!!.split("\n")){
             p.sendMessage(colored(i))
@@ -74,7 +76,7 @@ fun guiJoin(p:Player){
     }
     guiSendState(p)
 }
-fun guiLeave(p:Player){
+fun guiLeave(p: Player){
     if (Match.getPlayerState(p.name) < 1){
         for (i in Msg_Leave_Fail!!.split("\n")){
             p.sendMessage(colored(i))
@@ -84,10 +86,9 @@ fun guiLeave(p:Player){
             p.sendMessage(colored(i))
         }
         Match.delete(p.name,Match.getPlayerRoom(p.name))
-        guiSendState(p)
     }
 }
-fun guiQueue(p:Player){
+fun guiQueue(p: Player){
     guiSendState(p)
 }
 

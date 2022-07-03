@@ -1,1 +1,4 @@
 menu-title: "&eAmong Us"
+#最低和最高人数
+min-player: 4
+max-player: 10

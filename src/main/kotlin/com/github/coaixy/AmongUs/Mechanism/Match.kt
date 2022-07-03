@@ -1,6 +1,7 @@
 package com.github.coaixy.AmongUs.Mechanism
 
 import taboolib.common.platform.function.getDataFolder
+import taboolib.common.platform.function.info
 import java.io.File
 
 object Match {
@@ -98,16 +99,21 @@ object Match {
     }
     fun delete(playerName:String,roomId:Int):Boolean{
         val text = getText(roomId)
-        if (getPlayerState(playerName) == 2)return false
+        if (getPlayerState(playerName) != 1)return false
         if (getPlayerState(playerName) == 1){
             var result = ""
             val list = clearSpace(text.split("\n"))
             for ((index,value) in list.withIndex()){
-                if (value!=playerName && index != list.size-1){
-                    result+=value+"\n"
-                }else{
-                    result+=value
+                if (value != playerName){
+                    result += if (index != list.size-1){
+                        value+"\n"
+                    }else{
+                        value
+                    }
                 }
+            }
+            for (j in result.split("\n")){
+                info(j)
             }
             File(getDataFolder().path + "\\match\\$roomId.txt").writeText(result)
             return true

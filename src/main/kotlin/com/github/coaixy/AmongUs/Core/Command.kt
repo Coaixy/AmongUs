@@ -29,7 +29,7 @@ object Command {
     @CommandBody(
         optional = true,
         permissionDefault = PermissionDefault.TRUE,
-        permission = "AmongUs.user.gui"
+        permission = "AmongUs.user.state"
     )
     val state = stateCommand
 }
