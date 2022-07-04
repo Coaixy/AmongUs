@@ -2,6 +2,7 @@ package com.github.coaixy.AmongUs.Mechanism
 
 import com.github.coaixy.AmongUs.Core.Config_Max_Number
 import com.github.coaixy.AmongUs.Core.Config_Min_Number
+import org.bukkit.Bukkit
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.info
 import java.io.File
@@ -10,7 +11,7 @@ object Match {
 
 
     //获取可以加人的队列
-    // 1 等待中  2 已经开始
+    // 1 等待中  2 已经开始 3 结束
     fun getAvailableRoom():Int {
         val fileName = getDataFolder().path + "\\match\\list.txt"
         val list =  File(fileName).readLines()
@@ -42,13 +43,13 @@ object Match {
         }
         return result
     }
-    fun getGameList():List<Int>{
+    fun getEndList():List<Int>{
         val fileName = getDataFolder().path + "\\match\\list.txt"
         val list =  File(fileName).readLines()
         val result = mutableListOf<Int>()
         for (i in list){
             val path = getDataFolder().path + "\\match\\$i.txt"
-            if (File(path).readLines()[0] == "2"){
+            if (File(path).readLines()[0] == "3"){
                 result.add(i.toInt())
             }
         }
@@ -152,7 +153,7 @@ object Match {
         val text = File(getDataFolder().path+"\\match\\$roomId.txt").readText()
         return text[0].toString().toInt()
     }
-    fun setMethod(roomId:Int,state:Int){
+    fun setRoomMethod(roomId:Int, state:Int){
         val fileName = getDataFolder().path + "\\match\\$roomId.txt"
         var text = ""
         for (i in File(fileName).readLines()){
@@ -209,6 +210,19 @@ object Match {
 
     }
     fun end(roomId: Int){
+        val playerList = getPlayerList(roomId)
+        clearRoom(roomId)
 
+        //传送回大厅
+        for (name in playerList){
+            Bukkit.getPlayer(name)!!.chat("/stp lobby")
+        }
+    }
+    fun clearRoom(roomId: Int){
+        setRoomMethod(roomId,1)
+        //将所有玩家退出
+        for (i in getPlayerList(roomId)){
+            delete(i,roomId)
+        }
     }
 }

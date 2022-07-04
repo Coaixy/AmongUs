@@ -13,7 +13,7 @@ import taboolib.common.platform.function.getDataFolder
 import java.io.File
 
 val guiCommand = subCommand {
-    execute<ProxyCommandSender> { sender, context, argument ->
+    execute<ProxyCommandSender> { sender, _, _ ->
         val player:ProxyCommandSender = sender
         Bukkit.getPlayer(player.name)?.openInventory(inv)
     }
