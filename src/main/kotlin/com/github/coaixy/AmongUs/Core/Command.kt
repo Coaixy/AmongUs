@@ -1,8 +1,6 @@
 package com.github.coaixy.AmongUs.Core
 
-import com.github.coaixy.AmongUs.Commands.guiCommand
-import com.github.coaixy.AmongUs.Commands.helpCommand
-import com.github.coaixy.AmongUs.Commands.stateCommand
+import com.github.coaixy.AmongUs.Commands.*
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.PermissionDefault
@@ -32,4 +30,16 @@ object Command {
         permission = "AmongUs.user.state"
     )
     val state = stateCommand
+    @CommandBody(
+        optional = true,
+        permissionDefault = PermissionDefault.TRUE,
+        permission = "AmongUs.user.join"
+    )
+    val join = joinCommand
+    @CommandBody(
+        optional = true,
+        permissionDefault = PermissionDefault.TRUE,
+        permission = "AmongUs.user.leave"
+    )
+    val leave = leaveCommand
 }

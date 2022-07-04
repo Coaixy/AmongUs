@@ -9,7 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import taboolib.common.platform.event.SubscribeEvent
 
 
-object guiListener {
+object GuiListener {
     @SubscribeEvent
     fun e(e:InventoryClickEvent){
         val inv = e.inventory

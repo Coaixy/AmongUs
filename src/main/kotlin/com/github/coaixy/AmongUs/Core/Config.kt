@@ -34,3 +34,15 @@ val Msg_Leave_Fail: String?
     get() {
         return langConfigObject.getString("Leave-Failed")
     }
+val Config_Time: Long
+    get() {
+        return configObject.getLong("sleep")
+    }
+val Config_Min_Number: Int
+    get() {
+        return configObject.getInt("min-player")
+    }
+val Config_Max_Number: Int
+    get() {
+        return configObject.getInt("max-player")
+    }

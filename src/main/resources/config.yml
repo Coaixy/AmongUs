@@ -2,3 +2,5 @@ menu-title: "&eAmong Us"
 #最低和最高人数
 min-player: 4
 max-player: 10
+#单位毫秒 线程检测队列和游戏状态线程的休眠
+sleep: 10000

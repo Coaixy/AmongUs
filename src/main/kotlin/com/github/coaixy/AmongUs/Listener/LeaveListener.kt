@@ -4,7 +4,7 @@ import com.github.coaixy.AmongUs.Mechanism.Match
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
 
-object leaveListener {
+object LeaveListener {
     @SubscribeEvent
     fun e(e:PlayerQuitEvent){
         if (Match.getPlayerState(e.player.name) > 0){

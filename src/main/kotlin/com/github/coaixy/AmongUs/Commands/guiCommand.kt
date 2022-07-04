@@ -62,7 +62,7 @@ fun guiJoin(p: Player){
             p.sendMessage(colored(i))
         }
     }else{
-        val roomId = Match.getAvailableList()
+        val roomId = Match.getAvailableRoom()
         val path = getDataFolder().path+"\\match\\$roomId.txt"
         if (!File(path).exists()){
             val f = File(path)

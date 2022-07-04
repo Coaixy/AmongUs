@@ -1,5 +1,7 @@
 package com.github.coaixy.AmongUs.Mechanism
 
+import com.github.coaixy.AmongUs.Core.Config_Max_Number
+import com.github.coaixy.AmongUs.Core.Config_Min_Number
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.info
 import java.io.File
@@ -9,13 +11,13 @@ object Match {
 
     //获取可以加人的队列
     // 1 等待中  2 已经开始
-    fun getAvailableList():Int {
+    fun getAvailableRoom():Int {
         val fileName = getDataFolder().path + "\\match\\list.txt"
         val list =  File(fileName).readLines()
         val result = mutableListOf<Int>()
         for (i in list){
             val path = getDataFolder().path + "\\match\\$i.txt"
-            if (File(path).readLines()[0] == "1"){
+            if (File(path).readLines()[0] == "1" && getRoomNumber(i.toInt()) < Config_Max_Number){
                 result.add(i.toInt())
             }
         }
@@ -27,6 +29,30 @@ object Match {
         }else{
             result[0]
         }
+    }
+    fun getWaitList():List<Int>{
+        val fileName = getDataFolder().path + "\\match\\list.txt"
+        val list =  File(fileName).readLines()
+        val result = mutableListOf<Int>()
+        for (i in list){
+            val path = getDataFolder().path + "\\match\\$i.txt"
+            if (File(path).readLines()[0] == "1" && getRoomNumber(i.toInt()) >= Config_Min_Number){
+                result.add(i.toInt())
+            }
+        }
+        return result
+    }
+    fun getGameList():List<Int>{
+        val fileName = getDataFolder().path + "\\match\\list.txt"
+        val list =  File(fileName).readLines()
+        val result = mutableListOf<Int>()
+        for (i in list){
+            val path = getDataFolder().path + "\\match\\$i.txt"
+            if (File(path).readLines()[0] == "2"){
+                result.add(i.toInt())
+            }
+        }
+        return result
     }
     //0 空闲 1 已加入队列 2 已进入游戏
     fun getPlayerState(playerName: String):Int{
@@ -178,5 +204,11 @@ object Match {
             if (i!="")result.add(i)
         }
         return result
+    }
+    fun start(roomId: Int){
+
+    }
+    fun end(roomId: Int){
+
     }
 }
