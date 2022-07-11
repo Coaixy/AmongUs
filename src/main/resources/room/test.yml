@@ -1,0 +1,14 @@
+base-name: "test"
+hall-location:
+  # 报告厅
+  # x y z
+  - 1
+  - 2
+  - 3
+spawn-location:
+  # 出生点
+  # x y z
+  - 1
+  - 2
+  - 3
+

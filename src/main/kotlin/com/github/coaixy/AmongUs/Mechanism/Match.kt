@@ -207,6 +207,7 @@ object Match {
         return result
     }
     fun start(roomId: Int){
+        val list = getPlayerList(roomId)
 
     }
     fun end(roomId: Int){
